@@ -66,6 +66,35 @@ qqnorm(boot_res$t, main = "Q-Q Plot of Bootstrapped R-squared")
 qqline(boot_res$t, col = "red", lwd = 2)
 dev.off()
 
+# jackknife part
+jackknife_stat <- function(data,random_numbers) {
+ n <- length(random_numbers)
+ jack_estimates <- numeric(n)
 
+  for (i in c(1:n)) {
+    # Remove the i-th data point
+    jack_data <- data[-random_numbers[i],]
+    # Fit the linear model based on the provided formula
+    model <- lm(formula, data = jack_data)
+    # Compute the statistic (e.g., mean)
+    jack_estimates[i] <- summary(model)$r.squared
+  }
+  return(jack_estimates)
+}
+set.seed(123)  # 为了可重复性，设置随机种子
+random_numbers <- sample(1:nrow(trees), 50, replace = TRUE)
+# Call the jackknife function
+jackknife_result <- jackknife_stat(trees,random_numbers)
+
+png("Histgram_jackknife.png", width = 800, height = 600, bg = "transparent")
+hist(jackknife_result, breaks = 30, col = "lightgray", border = "black", prob = TRUE)
+lines(density(jackknife_result), col = "blue", lwd = 2)
+dev.off()
+
+png("QQ_jackknife.png", width = 800, height = 600, bg = "transparent")
+# Q-Q plot of the bootstrapped R-squared values
+qqnorm(jackknife_result, main = "Q-Q Plot of Bootstrapped R-squared")
+qqline(jackknife_result, col = "red", lwd = 2)
+dev.off()
 
 
