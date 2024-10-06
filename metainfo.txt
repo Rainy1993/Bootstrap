@@ -1,0 +1,6 @@
+Name of Quantlet: Bootstrap
+Published in: 'Non'
+Description: 'Example for Bootstrap and Jackknife'
+Keywords: 'Simulation, R, Bootstrap, Jackknife, Application, Plot'
+Author: 'Ruting Rainy WANG' 
+Submitted:  '30.09.2024'
